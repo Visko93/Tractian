@@ -1,7 +1,5 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
@@ -16,6 +14,58 @@ html, body {
   color: #333;
   margin: 0;
   padding: 0;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  width: 100%;
+  height: 48px;
+  background-color: hsla(235, 32%, 13%, 1);
+}
+
+.header__logo {
+  display: inline
+}
+
+.header__buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+/* common */
+
+/* BUTTONS */
+.button {
+  display: inline-block;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 2px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+.button__default {
+  color: hsla(0, 0%, 100%, 1);
+  background-color: hsla(212, 100%, 56%, 1);
+  box-shadow: 0 2px 0 0 hsla(0, 0%, 0%, 0.05);
+}
+
+.button__default:hover {
+  background-color: hsla(212, 100%, 46%, 1);
+}
+
+.button__outline {
+  color: hsla(211, 8%, 51%, 1);
+  background-color: hsla(0, 0%, 100%, 1);
+  border: 1px solid hsla(210, 22%, 87%, 1);
+  border-radius: 3px;
+  padding: 6px 16px 6px 14px;
 }
 
 @media (prefers-reduced-motion: no-preference) {

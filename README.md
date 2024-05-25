@@ -56,6 +56,7 @@ Logic, behaviour
 - Will need to share state between Viewer component and the Leaf so we need to create a context `ViewerContext`
 - Processing data into the tree?? probably use recursion to build the trees base case being related to the locationID and parentId, returning a <Leaf> component.
 - Will also need to provide the current assets selection based on the client, don't need an context for that, but probably good to create a hook, useClientSelection => {assets}, so probably good to add a useSearch as a hook to add a chain dependency useClientSelection => {assets} => useSearch(assets) => {results}
+- Needs a fake client to make the calls to the fake api
 
 - Context
   - ViwerContext
@@ -64,3 +65,11 @@ Logic, behaviour
   - useSeach
 - utils
   - proccessAssets
+- api
+  - client
+
+Things can do after
+
+- Better types, styles modularity
+- Uses localstorage to persist the image uploaded
+- Tests??
