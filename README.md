@@ -45,7 +45,7 @@ Copy the UI from figma
     -- Button
     -- Default
     -- Outline
-    -- DropDown
+    -- DragAndDrop
     -- Select
     -- Icons
     -- Breadcrumbs
