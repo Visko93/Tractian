@@ -5,6 +5,7 @@
   --color-primary: hsla(212, 100%, 56%, 1);
 }
 
+/* RESET */
 * {
   font-family: 'Inter', sans-serif;
   box-sizing: border-box;
@@ -22,6 +23,12 @@ html, body {
   margin: 0;
   padding: 0;
   background-color: hsla(205, 27%, 91%, 1);
+}
+li {
+  padding: 0;
+}
+ul, li {
+  list-style: none;
 }
 
 /* BAD BAD BAD */
@@ -143,12 +150,14 @@ main {
   flex-direction: column;
   border-radius: 0 0 2px 2px;
   height: 100%;
+  padding: 8px 4px;
 }
 .treeNode{}
 .treeLeaf{}
 
 .searchInput {
   display: flex;
+  position: relative;
   justify-content: space-between;
   align-items: center;
   width: 100%;
@@ -169,6 +178,19 @@ main {
   color: hsla(212, 16%, 79%, 1);
 }
 
+.searchIcon {
+  position: absolute;
+  top: calc(50% - 6px);
+  right: 21px;
+  cursor: pointer;
+  will-change: transform;
+  transform: scale(1);
+  transition: transform 0.2s ease;
+}
+
+.searchIcon:active {
+  transform: scale(0.9);
+}
 /* VIEWER */
 .viewer {
   display: flex;
