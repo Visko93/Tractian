@@ -1,14 +1,24 @@
+import { useState } from "react";
 import { TreeView } from "@/components/TreeView";
 import { Viewer } from "@/components/Viewer";
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
 import { Button } from "@/components/common/Buttons";
 import { Header } from "@/components/common/Header";
+import mock from "@/assets/api-data.json";
+import { companyTreeMapper } from "@/utils/treeView/ index";
 
 export function Home() {
+    const [selectedCompany, setSelectedCompany] = useState<string>(mock.companies[0].id);
+    const companiesOptions = mock.companies
+    const data = companyTreeMapper(mock);
 
     return (
-        <main>
-            <Header />
+        <div>
+            <Header
+                current={selectedCompany}
+                companies={companiesOptions}
+                setCompany={setSelectedCompany}
+            />
             <section className="dashboard">
                 {/* Top Section */}
                 <section className="dashboard__top">
@@ -22,10 +32,12 @@ export function Home() {
                 </section>
                 {/* Main Section */}
                 <section className="dashboard__main">
-                    <TreeView />
+                    <TreeView
+                        data={data[selectedCompany]}
+                    />
                     <Viewer />
                 </section>
             </section>
-        </main>
+        </div>
     );
 }

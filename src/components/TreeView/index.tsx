@@ -1,33 +1,20 @@
-import { SearchInput } from "./SearchInput";
-import { TreeRoot } from "./TreeRoot";
+import type { Asset, Location } from "@/utils/treeView/types";
+import { TreeNode } from "./Node";
 
-export function TreeView() {
+interface TreeViewProps {
+    data: Map<string, Asset | Location>
+}
 
+const TreeView: React.FC<TreeViewProps> = ({ data }) => {
     return (
-        <div className="treeView">
-            <SearchInput />
-            <TreeRoot
-                data={{
-                    name: 'PRODUCTION AREA - RAW MATERIAL',
-                    type: 'node',
-                    children: [
-                        {
-                            name: 'Machinery House',
-                            type: 'node',
-                            children: [
-                                {
-                                    name: 'MOTORS H12D',
-                                    type: 'node',
-                                    children: [
-                                        { name: 'MOTORS H12D - Stage 1', type: 'leaf' },
-                                        { name: 'MOTORS H12D - Stage 2', type: 'leaf' }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }}
-            />
+        <div>
+            {Array.from(data.values()).map(node => (
+                <ul key={node.id}>
+                    <TreeNode node={node} />
+                </ul>
+            ))}
         </div>
     );
-}
+};
+
+export { TreeView }
