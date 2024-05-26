@@ -23,19 +23,31 @@ html, body {
   padding: 0;
   background-color: hsla(205, 27%, 91%, 1);
 }
+
+/* BAD BAD BAD */
+main {
+  height: calc(100svh - 68px);
+}
 .dashboard {
   background-color: hsla(0, 0%, 100%, 1);
   border:  1px solid hsla(210, 22%, 87%, 1);
   border-radius: 4px;
   padding: 16px;
   margin: 8px;
+  height: 100%;
 }
 .dashboard__top {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
+.dashboard__main {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1;
+  gap: 0.5rem;
+  flex: 1;
+}
 /* HEADER */
 .header {
   display: flex;
@@ -120,10 +132,53 @@ html, body {
 }
 
 /* TREEVIEW */
+.treeView{
+  column-span: 2;
+  height: 100%;
+  border: 1px solid hsla(210, 22%, 87%, 1);
+  height: 100%;
+}
+.treeRoot{
+  display: flex;
+  flex-direction: column;
+  border-radius: 0 0 2px 2px;
+  height: 100%;
+}
+.treeNode{}
+.treeLeaf{}
 
+.searchInput {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-radius: 2px;
+}
 
+.searchInput input[type="search"] {
+  width: 100%;
+  padding: 0rem;
+  border-radius: 2px 2px 0 0;
+  padding: 1px 12px 0px 0px;
+  border: 1px solid hsla(210, 22%, 87%, 1);
+  padding: 0.75rem 1rem;
+}
+
+.searchInput input[type="search"]::placeholder {
+  font-size: 0.875rem;
+  color: hsla(212, 16%, 79%, 1);
+}
 
 /* VIEWER */
+.viewer {
+  display: flex;
+  flex-direction: column;
+  column-span: 3;
+  border: 1px solid hsla(210, 22%, 87%, 1);
+  border-radius: 2px;
+  height: 100%;
+}
+
 
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {

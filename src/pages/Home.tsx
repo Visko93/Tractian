@@ -1,3 +1,5 @@
+import { TreeView } from "@/components/TreeView";
+import { Viewer } from "@/components/Viewer";
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
 import { Button } from "@/components/common/Buttons";
 import { Header } from "@/components/common/Header";
@@ -19,7 +21,10 @@ export function Home() {
                     </div>
                 </section>
                 {/* Main Section */}
-                <section></section>
+                <section className="dashboard__main">
+                    <TreeView />
+                    <Viewer />
+                </section>
             </section>
         </main>
     );
