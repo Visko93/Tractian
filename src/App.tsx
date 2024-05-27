@@ -1,10 +1,13 @@
 import './App.css'
+import { Provider } from './Provider'
 import { Home } from './pages/Home'
 
 function App() {
   return (
     <main>
-      <Home />
+      <Provider>
+        <Home />
+      </Provider>
     </main>
   )
 }

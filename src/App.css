@@ -3,6 +3,7 @@
   text-align: center;
 
   --color-primary: hsla(212, 100%, 56%, 1);
+  --indent: 0;
 }
 
 /* RESET */
@@ -32,16 +33,14 @@ ul {
 }
 
 /* BAD BAD BAD */
-main {
-  height: calc(100svh - 68px);
-}
+
 .dashboard {
   background-color: hsla(0, 0%, 100%, 1);
   border:  1px solid hsla(210, 22%, 87%, 1);
   border-radius: 4px;
   padding: 16px;
   margin: 8px;
-  height: 100%;
+  height: calc(100vh - 4em);
 }
 .dashboard__top {
   display: flex;
@@ -54,6 +53,7 @@ main {
   grid-template-rows: 1;
   gap: 0.5rem;
   flex: 1;
+  height: calc(100vh - 8em - 24px);
 }
 /* HEADER */
 .header {
@@ -147,17 +147,29 @@ main {
   display: flex;
   align-items: start;
   flex-direction: column;
+  overflow: auto;
+  overflow-y: scroll;
+
+}
+
+.tree {
+  padding: 8px 4px;
+
 }
 .treeRoot{
   border-radius: 0 0 2px 2px;
   height: 100%;
-  padding: 8px 4px;
+  transition: all 0.5s  cubic-bezier(0.95, 0.05, 0.795, 0.035);
 }
 .treeNode{
   position: relative;
+  margin-left: 1rem;
+  color: #17192D;
+
+  /* Transition for when open the list */
 }
 
-.treeNode::before{
+.treeNode::after{
   content: '';
   position: absolute;
   top: 0;
@@ -169,7 +181,11 @@ main {
 .treeLeaf{
   display: flex;
   align-items: center;
-  padding: 0.5rem;
+  color: #17192D;
+}
+
+.treeLeaf:hover{
+  background-color: hsla(210, 22%, 87%, 1);
 }
 
 .searchInput {

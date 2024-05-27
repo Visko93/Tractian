@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Asset, Location } from '@/utils/treeView/types';
 import { Icons } from '../common/Icons';
 import { Leaf } from './Leaf';
@@ -9,32 +9,57 @@ interface TreeNodeProps {
 }
 const TreeNode: React.FC<TreeNodeProps> = ({ node, depth = 0 }) => {
     const [isExpanded, setIsExpanded] = useState(false);
-
-    // if there is the property locationId in the node, it isn't a location
+    useEffect(() => {
+        document.documentElement.style.setProperty('--indent', depth.toString());
+    }, [depth])
+    // if there is the property locationId in the node  , it isn't a location
     const isLocation = !('locationId' in node);
-    const isComponent = ('sensorType' in node) || ('status' in node);
+    const isComponent = () => {
+        if ('sensorId' in node && node.sensorId !== null) {
+            return true
+        }
+        if ('status' in node && node.status !== null) {
+            return true
+        }
+        return false
+    }
 
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
     };
     const hasChildren = node.children && node.children.length > 0;
-    const Icon = isLocation ? Icons.localization : isComponent ? Icons.asset : Icons.component;
+    const Icon = isLocation ? Icons.localization : isComponent() ? Icons.component : Icons.asset;
     const Chevron = hasChildren ? isExpanded ? Icons.chevronDown : Icons.chevronRight : null;
     return (
-        <>
-            <Leaf onClick={toggleExpand} style={{ cursor: 'pointer', marginLeft: hasChildren ? '' : 16, paddingLeft: `${depth * 16}px` }}>
+        <div className='tree'>
+            <Leaf
+                onClick={toggleExpand}
+                className={'treeLeaf'}
+                style={{
+                    cursor: 'pointer',
+                    paddingLeft: `${16}px`,
+                }}>
                 {Chevron && <Chevron size={16} />}
-                <Icon width={14} fill="hsla(212, 100%, 56%, 1)" style={{ marginRight: 2 }} />
+                <Icon
+                    width={22}
+                    fill={isComponent() ? 'transparent' : 'hsla(212, 100%, 56%, 1)'}
+                    stroke='hsla(212, 100%, 56%, 1)'
+                    strokeWidth={isLocation ? 0.25 : 0.75}
+                    style={{ marginRight: 4 }} />
                 {node.name}
             </Leaf>
             {isExpanded && node.children && node.children.length > 0 && (
-                <ul role='group' className='treeNode'>
+                <ul role='group' className='treeNode'
+                    style={{
+                        paddingLeft: `${depth * 16}px`,
+                    }}
+                >
                     {node.children.map(child => (
                         <TreeNode key={child.id} node={child} depth={depth + 1} />
                     ))}
                 </ul>
             )}
-        </>
+        </div>
     );
 };
 

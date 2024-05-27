@@ -5,7 +5,7 @@ type LeafProps = ComponentPropsWithoutRef<'li'> & {
 };
 function Leaf({ children, onClick, ...rest }: LeafProps) {
     return (
-        <li role="menuitem" className="treeLeaf" {...rest} onClick={onClick}>
+        <li  {...rest} onClick={onClick}>
             {children}
         </li>
     );
