@@ -24,11 +24,11 @@ html, body {
   padding: 0;
   background-color: hsla(205, 27%, 91%, 1);
 }
-li {
-  padding: 0;
-}
-ul, li {
+
+ul {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 /* BAD BAD BAD */
@@ -144,16 +144,33 @@ main {
   height: 100%;
   border: 1px solid hsla(210, 22%, 87%, 1);
   height: 100%;
+  display: flex;
+  align-items: start;
+  flex-direction: column;
 }
 .treeRoot{
-  display: flex;
-  flex-direction: column;
   border-radius: 0 0 2px 2px;
   height: 100%;
   padding: 8px 4px;
 }
-.treeNode{}
-.treeLeaf{}
+.treeNode{
+  position: relative;
+}
+
+.treeNode::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: .5em;
+  width: 1px;
+  height: 100%;
+  background-color: rgb(154, 154, 154);
+}
+.treeLeaf{
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+}
 
 .searchInput {
   display: flex;

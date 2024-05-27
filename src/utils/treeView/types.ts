@@ -14,7 +14,7 @@ interface Location {
     id: string;
     name: string;
     parentId: string | null;
-    children?: Asset[];
+    children?: Asset[] | Location[];
 }
 
 interface Company {

@@ -1,39 +1,41 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Asset, Location } from '@/utils/treeView/types';
 import { Icons } from '../common/Icons';
+import { Leaf } from './Leaf';
 
-// Define the props for the TreeNode component
 interface TreeNodeProps {
     node: Asset | Location;
+    depth: number;
 }
-
-// TreeNode component to render each node in the tree
-const TreeNode: React.FC<TreeNodeProps> = ({ node }) => {
+const TreeNode: React.FC<TreeNodeProps> = ({ node, depth = 0 }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const isLocation = (node as Location).id === undefined;
+    // if there is the property locationId in the node, it isn't a location
+    const isLocation = !('locationId' in node);
+    const isComponent = ('sensorType' in node) || ('status' in node);
 
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
     };
-
+    const hasChildren = node.children && node.children.length > 0;
+    const Icon = isLocation ? Icons.localization : isComponent ? Icons.asset : Icons.component;
+    const Chevron = hasChildren ? isExpanded ? Icons.chevronDown : Icons.chevronRight : null;
     return (
-        <li>
-            <div onClick={toggleExpand} style={{ cursor: 'pointer' }}>
-                {isExpanded ? <Icons.chevronDown size={16} /> : <Icons.chevronRight size={16} />}
-                {isLocation ? <Icons.localization width={16} /> : <Icons.component width={16} />}
+        <>
+            <Leaf onClick={toggleExpand} style={{ cursor: 'pointer', marginLeft: hasChildren ? '' : 16, paddingLeft: `${depth * 16}px` }}>
+                {Chevron && <Chevron size={16} />}
+                <Icon width={14} fill="hsla(212, 100%, 56%, 1)" style={{ marginRight: 2 }} />
                 {node.name}
-            </div>
+            </Leaf>
             {isExpanded && node.children && node.children.length > 0 && (
-                <ul>
+                <ul role='group' className='treeNode'>
                     {node.children.map(child => (
-                        <TreeNode key={child.id} node={child} />
+                        <TreeNode key={child.id} node={child} depth={depth + 1} />
                     ))}
                 </ul>
             )}
-        </li>
+        </>
     );
 };
-
 
 export { TreeNode };
