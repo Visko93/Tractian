@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Asset, Location } from '@/utils/treeView/types';
 import { Icons } from '../common/Icons';
 import { Leaf } from './Leaf';
+import { useViewerContext } from '@/context/viewerContext';
 
 interface TreeNodeProps {
     node: Asset | Location;
@@ -9,6 +10,8 @@ interface TreeNodeProps {
 }
 const TreeNode: React.FC<TreeNodeProps> = ({ node, depth = 0 }) => {
     const [isExpanded, setIsExpanded] = useState(false);
+
+    const { select, selectedAsset } = useViewerContext();
     useEffect(() => {
         document.documentElement.style.setProperty('--indent', depth.toString());
     }, [depth])
@@ -30,20 +33,25 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, depth = 0 }) => {
     const hasChildren = node.children && node.children.length > 0;
     const Icon = isLocation ? Icons.localization : isComponent() ? Icons.component : Icons.asset;
     const Chevron = hasChildren ? isExpanded ? Icons.chevronDown : Icons.chevronRight : null;
+    const isSelected = selectedAsset && selectedAsset.id === node.id;
     return (
         <div className='tree'>
             <Leaf
-                onClick={toggleExpand}
-                className={'treeLeaf'}
+                onClick={
+                    isComponent() ? () => { select(node as Asset) } : toggleExpand
+                }
+                className={`treeLeaf ${isSelected ? 'active' : ''}`}
                 style={{
                     cursor: 'pointer',
-                    paddingLeft: `${16}px`,
-                }}>
+                    paddingLeft: `${16}px`
+                }}
+
+            >
                 {Chevron && <Chevron size={16} />}
                 <Icon
                     width={22}
                     fill={isComponent() ? 'transparent' : 'hsla(212, 100%, 56%, 1)'}
-                    stroke='hsla(212, 100%, 56%, 1)'
+                    stroke={isSelected ? 'white' : 'hsla(212, 100%, 56%, 1)'}
                     strokeWidth={isLocation ? 0.25 : 0.75}
                     style={{ marginRight: 4 }} />
                 {node.name}

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Icons } from '../common/Icons';
 
 interface DragAndDropImageProps {
-    onDrop: (files: FileList) => void;
+    onDrop: (files: File) => void;
 }
 
 const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ onDrop }) => {
@@ -26,7 +26,7 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ onDrop }) => {
             const file = event.dataTransfer.files[0];
             const previewUrl = URL.createObjectURL(file);
             setImagePreview(previewUrl);
-            onDrop(file as any);
+            onDrop(file);
         }
     };
 
@@ -40,16 +40,14 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ onDrop }) => {
                 const file = target.files[0];
                 const previewUrl = URL.createObjectURL(file);
                 setImagePreview(previewUrl);
-                onDrop(file as any);
+                onDrop(file);
             }
         };
         input.click();
     }
 
     return (
-        <div style={{ width: '100%', maxWidth: '400px', margin: '0 auto', textAlign: 'center' }}
-            onClick={handleClick}
-        >
+        <div onClick={handleClick}>
             {!imagePreview ? (
                 <motion.div
                     initial={{ scale: 1 }}
@@ -58,21 +56,9 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ onDrop }) => {
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
-                    style={{
-                        backgroundColor: '#F2F8FF',
-                        border: '2px dashed #55A6FF',
-                        borderRadius: '8px',
-                        padding: '20px',
-                        textAlign: 'center',
-                        cursor: 'pointer',
-                        height: '200px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
+                    className='viewer__dropDown'
                 >
-                    <Icons.mail size={48} color="#55A6FF" />
+                    <Icons.mail size={48} color="#2188FF" />
                     <p>Adicionar imagem do Ativo</p>
                 </motion.div>
             ) : (
@@ -80,19 +66,7 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ onDrop }) => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5 }}
-                    style={{
-                        position: 'relative',
-                        width: '100%',
-                        height: '200px',
-                        overflow: 'hidden',
-                        borderRadius: '8px',
-                        boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: '#F2F8FF',
-                        border: '2px solid #55A6FF'
-                    }}
+                    className='viewer__dropDown'
                 >
                     <img
                         src={imagePreview}

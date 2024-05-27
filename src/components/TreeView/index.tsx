@@ -12,7 +12,7 @@ const TreeView: React.FC<TreeViewProps> = ({ data }) => {
             <div className="treeView" >
                 <SearchInput />
                 {Array.from(data.values()).map(node => (
-                    <ul key={node.id} >
+                    <ul key={node.id} style={{ width: '100%' }}>
                         <TreeNode node={node} depth={0} />
                     </ul>
                 ))}
