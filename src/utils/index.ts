@@ -2,8 +2,8 @@ import { Status } from "@/components/common/StatusBadge";
 
 export function getAssetStatus(status: string | null) {
     switch (status) {
-        case "active":
-            return Status.active;
+        case "operating":
+            return Status.operating;
         case "alert":
             return Status.warning;
         case "warning":

@@ -1,4 +1,4 @@
-import { Asset, Location, TreeNodeData } from "./types";
+import { Asset, Location } from "./types";
 
 function getParent (data: Asset | Location) {
     return data.parentId;
@@ -14,23 +14,22 @@ function iterateOverChildren<T extends Asset | Location>(data: Array<T>) {
     }
     return map;
 }
-function companyTreeMapper (data: TreeNodeData) {
-    const { companies, ...rest } = data;
-    const companiesMap = new Map(companies.map((company) => [company.id, rest[company.id]]));
-    let parsedData: {[key: string]: Map<string, Asset | Location>} = {}
-    for (const [company, {assets, locations}] of companiesMap) {
 
-       let assetMap = iterateOverChildren<Asset>(assets);
-        let locationMap = iterateOverChildren<Location>(locations);
+// remove inner loop, now is O(n) instead of O(n^2)
+function companyTreeMapper (assets: Asset[], locations: Location[]) {
+    if (!assets || !locations) return new Map();
+    let parsedData: Map<string, Asset | Location> = new Map();
 
-        for (const asset of assetMap.values()) {
-            if (asset.locationId) {
-                locationMap.get(asset.locationId)?.children.push(asset);
-            }
+    let assetMap = iterateOverChildren<Asset>(assets);
+    let locationMap = iterateOverChildren<Location>(locations);
+
+    for (const asset of assetMap.values()) {
+        if (asset.locationId) {
+            locationMap.get(asset.locationId)?.children.push(asset);
         }
-        
-        parsedData[company] = locationMap;
     }
+        
+    parsedData = locationMap;
     return parsedData;
 }
 export { companyTreeMapper };

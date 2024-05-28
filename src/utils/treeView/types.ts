@@ -22,8 +22,4 @@ interface Company {
     name: string;
 }
 
-type TreeNodeData = {
-    [key: string]: { assets: Asset[], locations: Location[] };
-} & { companies: Company[] };
-
-export type { Asset, Location, Company, TreeNodeData}
+export type { Asset, Location, Company}

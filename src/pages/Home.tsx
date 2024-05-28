@@ -4,32 +4,59 @@ import { Viewer } from "@/components/Viewer";
 import { Breadcrumbs } from "@/components/common/Breadcrumbs";
 import { Button } from "@/components/common/Buttons";
 import { Header } from "@/components/common/Header";
-import mock from "@/assets/api-data.json";
 import { companyTreeMapper } from "@/utils/treeView/ index";
 import { useQuery } from "@tanstack/react-query";
 import { URL_API } from "@/services/client";
 import axios from "axios";
+import { Company } from "@/utils/treeView/types";
 
 export function Home() {
-    const [selectedCompany, setSelectedCompany] = useState<string>(mock.companies[0].id);
-    const companiesOptions = mock.companies
-    const companies = useQuery({
+    const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
+    const { data: companies } = useQuery<Company[]>({
         queryKey: ["companies"],
         queryFn: () => axios
             .get(URL_API + "/companies")
             .then((res) =>
                 res.data,
-                (e) => console.log(e)
+                (e) => { throw new Error(e) }
+            )
+            .then((data) => {
+                if (!selectedCompany) {
+                    setSelectedCompany(data[0].id)
+                }
+                return data
+            })
+    })
+
+    const { data: assets } = useQuery({
+        queryKey: ["assets", selectedCompany],
+        queryFn: () => axios
+            .get(URL_API + `/companies/${selectedCompany}/assets`)
+            .then((res) =>
+                res.data,
+                (e) => { throw new Error(e) }
             )
     })
-    console.log(companies)
-    const data = companyTreeMapper(mock);
 
+    const { data: locations } = useQuery({
+        queryKey: ["locations", selectedCompany],
+        queryFn: () => axios
+            .get(URL_API + `/companies/${selectedCompany}/locations`)
+            .then((res) =>
+                res.data,
+                (e) => { throw new Error(e) }
+            )
+    })
+    console.log(assets, locations)
+    const data = companyTreeMapper(assets, locations);
+    console.debug('TreeView', data);
+
+    if (!companies) return
     return (
         <div>
             <Header
                 current={selectedCompany}
-                companies={companiesOptions}
+                companies={companies}
                 setCompany={setSelectedCompany}
             />
             <section className="dashboard">
@@ -46,7 +73,7 @@ export function Home() {
                 {/* Main Section */}
                 <section className="dashboard__main">
                     <TreeView
-                        data={data[selectedCompany]}
+                        data={data}
                     />
                     <Viewer />
                 </section>

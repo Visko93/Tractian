@@ -2,7 +2,7 @@ import logo from "@/assets/logo.png"
 import { Button } from "../Buttons";
 
 interface HeaderProps {
-    current: string;
+    current: string | null;
     setCompany: (id: string) => void;
     companies: { id: string, name: string }[];
 }
