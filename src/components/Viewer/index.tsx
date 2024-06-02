@@ -1,6 +1,6 @@
 import React from "react";
 import { Icons } from "../common/Icons";
-import { Status, StatusBadge } from "../common/StatusBadge";
+import { StatusBadge } from "../common/StatusBadge";
 import { DragAndDropImage } from "./DropInput";
 import { useViewerContext } from "@/context/viewerContext";
 import { getAssetStatus } from "@/utils";
@@ -12,9 +12,9 @@ interface StackedDataProps {
 }
 function StackedData({ name, title, icon }: StackedDataProps) {
     return (
-        <div className="stacked__data">
-            <h4 className="stacked__title">{title ?? ""}</h4>
-            <div className="stacked__name" >
+        <div className="stacked-data">
+            <h4 className="stacked-data__title">{title ?? ""}</h4>
+            <div className="stacked-data__name" >
                 {icon}
                 <p>{name}</p>
             </div>
@@ -25,7 +25,6 @@ function StackedData({ name, title, icon }: StackedDataProps) {
 
 export function Viewer() {
     const { selectedAsset } = useViewerContext();
-    console.log(selectedAsset);
     const onDrop = (files: File) => {
         console.log(files);
     }

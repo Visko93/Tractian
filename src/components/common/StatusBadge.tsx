@@ -8,13 +8,13 @@ enum Status {
 function StatusBadge({ status }: { status: Status }) {
     switch (status) {
         case 'operating':
-            return <div className='statusBadge active'></div>;
+            return <div className='status-badge status-badge--active'></div>;
         case 'inactive':
-            return <div className='statusBadge inactive'></div>;
+            return <div className='status-badge status-badge--inactive'></div>;
         case 'warning':
-            return <div className='statusBadge warning'></div>;
+            return <div className='status-badge status-badge--warning'></div>;
         default:
-            return <div className='statusBadge unknown'></div>;
+            return <div className='status-badge status-badge--unknown'></div>;
     }
 }
 

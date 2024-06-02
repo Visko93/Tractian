@@ -56,7 +56,7 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ onDrop }) => {
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
-                    className='viewer__dropDown'
+                    className='viewer__drop'
                 >
                     <Icons.mail size={48} color="#2188FF" />
                     <p>Adicionar imagem do Ativo</p>
@@ -66,7 +66,7 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ onDrop }) => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5 }}
-                    className='viewer__dropDown'
+                    className='viewer__drop'
                 >
                     <img
                         src={imagePreview}

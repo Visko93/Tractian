@@ -35,15 +35,15 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, depth = 0 }) => {
     const Chevron = hasChildren ? isExpanded ? Icons.chevronDown : Icons.chevronRight : null;
     const isSelected = selectedAsset && selectedAsset.id === node.id;
     return (
-        <div className='tree'>
+        <div className='tree-view__tree'>
             <Leaf
                 onClick={
                     isComponent() ? () => { select(node as Asset) } : toggleExpand
-                }
-                className={`treeLeaf ${isSelected ? 'active' : ''}`}
+                } tree-view__leaf
+                className={`tree-view__leaf${isSelected ? '--active' : ''}`}
                 style={{
                     cursor: 'pointer',
-                    paddingLeft: `${16}px`
+                    paddingLeft: `16px`
                 }}
 
             >
@@ -57,7 +57,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, depth = 0 }) => {
                 {node.name}
             </Leaf>
             {isExpanded && node.children && node.children.length > 0 && (
-                <ul role='group' className='treeNode'
+                <ul role='group' className='tree-view__node'
                     style={{
                         paddingLeft: `${depth * 16}px`,
                     }}

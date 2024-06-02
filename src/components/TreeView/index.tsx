@@ -9,7 +9,7 @@ interface TreeViewProps {
 const TreeView: React.FC<TreeViewProps> = ({ data }) => {
     return (
         <>
-            <div className="treeView" >
+            <div className="tree-view" >
                 <SearchInput />
                 {data && Array.from(data.values()).map(node => (
                     <ul key={node.id} style={{ width: '100%' }}>

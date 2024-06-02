@@ -8,7 +8,7 @@ type ButtonProps = React.ComponentPropsWithoutRef<'button'> & {
 
 export function Button({ icon: Icon, label, variant, ...props }: ButtonProps) {
     return (
-        <button className={`button button__${variant}`} {...props}>
+        <button className={`button button--${variant}`} {...props}>
             {Icon && Icon}
             {label}
         </button>

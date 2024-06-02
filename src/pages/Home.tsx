@@ -10,16 +10,20 @@ import { URL_API } from "@/services/client";
 import axios from "axios";
 import { Company } from "@/utils/treeView/types";
 
+async function getCompanies() {
+    return axios
+        .get(URL_API + "/companies")
+        .then((res) =>
+            res.data,
+            (e) => { throw new Error(e) }
+        )
+}
+
 export function Home() {
     const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
     const { data: companies } = useQuery<Company[]>({
         queryKey: ["companies"],
-        queryFn: () => axios
-            .get(URL_API + "/companies")
-            .then((res) =>
-                res.data,
-                (e) => { throw new Error(e) }
-            )
+        queryFn: () => getCompanies()
             .then((data) => {
                 if (!selectedCompany) {
                     setSelectedCompany(data[0].id)
@@ -47,9 +51,7 @@ export function Home() {
                 (e) => { throw new Error(e) }
             )
     })
-    console.log(assets, locations)
     const data = companyTreeMapper(assets, locations);
-    console.debug('TreeView', data);
 
     if (!companies) return
     return (
