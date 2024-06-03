@@ -40,14 +40,13 @@ interface UseFilterProps extends Filter {
       }
   
       if (energySensor) {
-        filteredAssets = filteredAssets.filter((asset: Asset) => asset.sensorType === 'Energy');
+        filteredAssets = filteredAssets.filter((asset: Asset) => asset.sensorType === 'energy');
       }
   
       if (text) {
         const lowercasedText = text.toLowerCase();
         filteredAssets = filteredAssets.filter((asset: Asset) => asset.name.toLowerCase().includes(lowercasedText));
       }
-  
       const filteredLocations = locations.map((location: Location) => ({
         ...location,
         children: location.children?.filter((child) => {

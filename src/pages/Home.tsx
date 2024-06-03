@@ -18,10 +18,9 @@ export function Home() {
     const [energySensor, setEnergySensor] = useState(false);
     const [search, setSearch] = useState("");
 
-
     const { data: companies } = useQuery<Company[]>({
         queryKey: ["companies"],
-        queryFn: () => getCompanies()
+        queryFn: async () => await getCompanies()
             .then((data) => {
                 if (!selectedCompany) {
                     setSelectedCompany(data[0].id)
@@ -32,27 +31,22 @@ export function Home() {
 
     const { data: assets } = useQuery({
         queryKey: ["assets", selectedCompany],
-        queryFn: () => getCompanyAssets(selectedCompany)
+        queryFn: async () => await getCompanyAssets(selectedCompany)
     })
 
     const { data: locations } = useQuery({
         queryKey: ["locations", selectedCompany],
-        queryFn: () => getCompanyLocations(selectedCompany)
+        queryFn: async () => await getCompanyLocations(selectedCompany)
     })
-    const { filteredData: { assets: filteredAssets, locations: filteredLocations } } = useFilter({
+    const { filteredData: { assets: filteredAssets, locations: filteredLocations }, isLoading } = useFilter({
         energySensor,
         criticalSensor,
         text: search,
         assets: assets,
         locations: locations
     });
-    let data
-    if (filteredAssets && filteredLocations) {
-        data = companyTreeMapper(filteredAssets, filteredLocations);
-    } else {
-        data = companyTreeMapper(assets, locations);
-    }
 
+    const data = companyTreeMapper(filteredAssets, filteredLocations);
     if (!companies) return
     return (
         <div>
@@ -65,17 +59,24 @@ export function Home() {
                 {/* Top Section */}
                 <section className="dashboard__top">
                     <Breadcrumbs
-                        company="Apex Unit"
+                        company={companies.find((company) => company.id === selectedCompany)?.name || ""}
                     />
                     <div >
-                        <Button label="Sensor de Energia" variant="outline" />
-                        <Button label="Critico" variant="outline" style={{ marginLeft: 8 }} />
+                        <Button label="Sensor de Energia" variant={energySensor ? 'outline-active' : 'outline'}
+                            onClick={() => setEnergySensor(!energySensor)}
+                        />
+                        <Button label="Critico" variant={criticalSensor ? 'outline-active' : 'outline'}
+                            onClick={() => setCriticalSensor(!criticalSensor)}
+                            style={{ marginLeft: 8 }} />
                     </div>
                 </section>
                 {/* Main Section */}
                 <section className="dashboard__main">
                     <TreeView
                         data={data}
+                        search={search}
+                        onSearch={(value: string) => setSearch(value)}
+                        loading={!locations || !assets || isLoading}
                     />
                     <Viewer />
                 </section>

@@ -73,3 +73,14 @@ Things can do after
 - Better types, styles modularity
 - Uses localstorage to persist the image uploaded
 - Tests??
+
+---
+
+Post mortem
+
+- Did not finish the whole project, biggest pain points and improvemts
+  -- The identification of assets is not 100% since refactored to O(n), mainly example is the `Fan - External` component that is not being represented in the tree, thats because when merging the assets to the locations the function just skip it since there is no location relation
+  -- Search can be done in a better way, rn I'm reprocessing the whole three, probably a good Idei to have at least three memoiezed trees, All items, Energy Toggled and Critical
+  -- I'm happy with the design, would modulurize it in a real project
+  -- No tests :/
+  -- When implementing the search (which I did not finish) I broke company dynamic changes

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 type ButtonProps = React.ComponentPropsWithoutRef<'button'> & {
     label: string,
-    variant: "default" | "outline" | "default-active",
+    variant: "default" | "outline" | "default-active" | "outline-active",
     icon?: React.ReactElement,
 };
 
