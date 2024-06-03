@@ -15,7 +15,6 @@ function iterateOverChildren<T extends Asset | Location>(data: Array<T>) {
     return map;
 }
 
-// remove inner loop, now is O(n) instead of O(n^2)
 function companyTreeMapper (assets: Asset[], locations: Location[]) {
     if (!assets || !locations) return new Map();
     let parsedData: Map<string, Asset | Location> = new Map();

@@ -22,4 +22,11 @@ interface Company {
     name: string;
 }
 
-export type { Asset, Location, Company}
+interface Filter {
+    energySensor: boolean;
+    criticalSensor: boolean;
+    text?: string;
+}
+
+
+export type { Asset, Location, Company, Filter}

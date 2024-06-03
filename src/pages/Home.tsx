@@ -6,21 +6,19 @@ import { Button } from "@/components/common/Buttons";
 import { Header } from "@/components/common/Header";
 import { companyTreeMapper } from "@/utils/treeView/ index";
 import { useQuery } from "@tanstack/react-query";
-import { URL_API } from "@/services/client";
-import axios from "axios";
 import { Company } from "@/utils/treeView/types";
-
-async function getCompanies() {
-    return axios
-        .get(URL_API + "/companies")
-        .then((res) =>
-            res.data,
-            (e) => { throw new Error(e) }
-        )
-}
+import { getCompanies } from "@/services/companies";
+import { getCompanyLocations } from "@/services/locations";
+import { getCompanyAssets } from "@/services/assets";
+import { useFilter } from '@/hooks/useFilter'
 
 export function Home() {
     const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
+    const [criticalSensor, setCriticalSensor] = useState(false);
+    const [energySensor, setEnergySensor] = useState(false);
+    const [search, setSearch] = useState("");
+
+
     const { data: companies } = useQuery<Company[]>({
         queryKey: ["companies"],
         queryFn: () => getCompanies()
@@ -34,24 +32,26 @@ export function Home() {
 
     const { data: assets } = useQuery({
         queryKey: ["assets", selectedCompany],
-        queryFn: () => axios
-            .get(URL_API + `/companies/${selectedCompany}/assets`)
-            .then((res) =>
-                res.data,
-                (e) => { throw new Error(e) }
-            )
+        queryFn: () => getCompanyAssets(selectedCompany)
     })
 
     const { data: locations } = useQuery({
         queryKey: ["locations", selectedCompany],
-        queryFn: () => axios
-            .get(URL_API + `/companies/${selectedCompany}/locations`)
-            .then((res) =>
-                res.data,
-                (e) => { throw new Error(e) }
-            )
+        queryFn: () => getCompanyLocations(selectedCompany)
     })
-    const data = companyTreeMapper(assets, locations);
+    const { filteredData: { assets: filteredAssets, locations: filteredLocations } } = useFilter({
+        energySensor,
+        criticalSensor,
+        text: search,
+        assets: assets,
+        locations: locations
+    });
+    let data
+    if (filteredAssets && filteredLocations) {
+        data = companyTreeMapper(filteredAssets, filteredLocations);
+    } else {
+        data = companyTreeMapper(assets, locations);
+    }
 
     if (!companies) return
     return (
